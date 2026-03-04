@@ -1,7 +1,0 @@
-{
-  "root": true,
-  "extends": ["@raycast/eslint-config"],
-  "rules": {
-    "@raycast/prefer-title-case": "off"
-  }
-}

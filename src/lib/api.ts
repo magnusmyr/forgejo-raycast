@@ -59,10 +59,18 @@ export async function getUser(username: string): Promise<ForgejoUser> {
 }
 
 export async function searchRepos(userId: number): Promise<ForgejoRepo[]> {
-  const data = await apiFetch<{ data: ForgejoRepo[] }>(
-    `/repos/search?limit=50&uid=${userId}`,
-  );
-  return data.data;
+  const all: ForgejoRepo[] = [];
+  const limit = 50;
+  let page = 1;
+  while (true) {
+    const data = await apiFetch<{ data: ForgejoRepo[] }>(
+      `/repos/search?limit=${limit}&uid=${userId}&page=${page}`,
+    );
+    all.push(...data.data);
+    if (data.data.length < limit) break;
+    page++;
+  }
+  return all;
 }
 
 export interface CreateRepoOptions {
